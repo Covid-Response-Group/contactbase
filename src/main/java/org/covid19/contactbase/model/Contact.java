@@ -3,7 +3,6 @@ package org.covid19.contactbase.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Set;
 
 public class Contact implements Serializable {
 
@@ -12,6 +11,8 @@ public class Contact implements Serializable {
 
     @NotNull
     private String[] spatialTemporalStamps;
+    // SpatialTemporalStamp has a format of L7Geohash:HourStamp
+    // Eg. gbsuv7z:202003271230
 
     public Contact() {
 
