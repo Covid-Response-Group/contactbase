@@ -3,22 +3,21 @@ package org.covid19.contactbase.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 public class Contact implements Serializable {
 
     @NotBlank
     private String deviceId;
 
-    // SpatialTemporalStamp has a format of L7Geohash:Distance:HourStamp
-    // Eg. gbsuv7z:12:2020032712
     @NotNull
-    private String[] spatialTemporalStamps;
+    private List<SpatialTemporalStamp> spatialTemporalStamps;
 
     public Contact() {
 
     }
 
-    public Contact(String deviceId, String[] spatialTemporalStamps) {
+    public Contact(@NotBlank String deviceId, @NotNull List<SpatialTemporalStamp> spatialTemporalStamps) {
         this.deviceId = deviceId;
         this.spatialTemporalStamps = spatialTemporalStamps;
     }
@@ -31,11 +30,11 @@ public class Contact implements Serializable {
         this.deviceId = deviceId;
     }
 
-    public String[] getSpatialTemporalStamps() {
+    public List<SpatialTemporalStamp> getSpatialTemporalStamps() {
         return spatialTemporalStamps;
     }
 
-    public void setSpatialTemporalStamps(String[] spatialTemporalStamps) {
+    public void setSpatialTemporalStamps(List<SpatialTemporalStamp> spatialTemporalStamps) {
         this.spatialTemporalStamps = spatialTemporalStamps;
     }
 }

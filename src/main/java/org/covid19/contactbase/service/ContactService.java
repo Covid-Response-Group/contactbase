@@ -1,10 +1,12 @@
 package org.covid19.contactbase.service;
 
 import org.covid19.contactbase.model.Contact;
+import org.covid19.contactbase.model.SpatialTemporalStamp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,8 +21,19 @@ public class ContactService {
 
     public void store(String deviceId, List<Contact> contacts) {
         for (Contact contact : contacts) {
+            List<SpatialTemporalStamp> spatialTemporalStamps = contact.getSpatialTemporalStamps();
+
+            String[] spatialTemporalStampSerializedList = new String[spatialTemporalStamps.size()];
+
+            int idx = 0;
+
+            for (SpatialTemporalStamp spatialTemporalStamp : spatialTemporalStamps) {
+                spatialTemporalStampSerializedList[idx] = spatialTemporalStamp.toString();
+                idx++;
+            }
+
             stringRedisTemplate.opsForSet().add(getContactKey(deviceId, contact.getDeviceId()),
-                    contact.getSpatialTemporalStamps());
+                    spatialTemporalStampSerializedList);
         }
     }
 
