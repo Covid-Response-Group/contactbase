@@ -18,8 +18,10 @@ public class DeviceService {
     }
 
     public String register(Device device) {
+        String token = Jwt.getDeviceToken(device);
+
         if (stringRedisTemplate.hasKey(getDeviceKey(device))) {
-            return Jwt.getDeviceToken(device);
+            return token;
         }
 
         device.setRegistrationTimeStamp(System.currentTimeMillis());
@@ -28,6 +30,7 @@ public class DeviceService {
 
         if (deviceString != null) {
             stringRedisTemplate.opsForValue().set(getDeviceKey(device), deviceString);
+            return token;
         }
 
         throw new RuntimeException("Error while registering device");

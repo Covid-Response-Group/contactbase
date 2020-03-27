@@ -9,10 +9,10 @@ public class Contact implements Serializable {
     @NotBlank
     private String deviceId;
 
+    // SpatialTemporalStamp has a format of L7Geohash:HourStamp
+    // Eg. gbsuv7z:2020032712
     @NotNull
     private String[] spatialTemporalStamps;
-    // SpatialTemporalStamp has a format of L7Geohash:HourStamp
-    // Eg. gbsuv7z:202003271230
 
     public Contact() {
 
