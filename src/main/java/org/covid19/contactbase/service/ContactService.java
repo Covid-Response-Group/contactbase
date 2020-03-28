@@ -42,6 +42,8 @@ public class ContactService {
 
             String contactDeviceId = contact.getDeviceId();
 
+            stringRedisTemplate.opsForZSet().add(getContactsKey(contactDeviceId), deviceId, 1.0);
+
             stringRedisTemplate.opsForSet().add(getContactMetaKey(deviceId, contactDeviceId),
                     spatialTemporalStampSerializedList);
 
