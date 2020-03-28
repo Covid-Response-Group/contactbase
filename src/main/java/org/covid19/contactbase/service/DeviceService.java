@@ -4,6 +4,7 @@ import org.covid19.contactbase.model.Device;
 import org.covid19.contactbase.util.Json;
 import org.covid19.contactbase.util.Jwt;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +13,16 @@ public class DeviceService {
 
     private StringRedisTemplate stringRedisTemplate;
 
+    @Value("${jwt.secret.key}")
+    private String jwtSecretKey;
+
     @Autowired
     public DeviceService(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
     }
 
     public String register(Device device) {
-        String token = Jwt.getDeviceToken(device);
+        String token = Jwt.getDeviceToken(device, jwtSecretKey);
 
         if (stringRedisTemplate.hasKey(getDeviceKey(device))) {
             return token;

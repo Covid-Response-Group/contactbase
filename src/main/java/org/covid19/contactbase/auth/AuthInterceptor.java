@@ -3,6 +3,7 @@ package org.covid19.contactbase.auth;
 import org.covid19.contactbase.controller.RequiresDeviceAuthentication;
 import org.covid19.contactbase.model.Device;
 import org.covid19.contactbase.util.Jwt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
+
+    @Value("${jwt.secret.key}")
+    private String jwtSecretKey;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -24,7 +28,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 String token = extractToken(request);
 
 
-                Device device = Jwt.getDevice(token);
+                Device device = Jwt.getDevice(token, jwtSecretKey);
 
                 if (device == null) {
                     throw new RuntimeException("Invalid access token");

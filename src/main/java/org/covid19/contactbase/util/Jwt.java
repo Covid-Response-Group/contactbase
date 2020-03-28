@@ -10,16 +10,14 @@ import java.security.Key;
 
 public class Jwt {
 
-    private static final String SECRET_KEY = "covid!2019";
-
     public Jwt() {
 
     }
 
-    public static Device getDevice(String token) {
+    public static Device getDevice(String token, String secretKey) {
         try {
             SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-            byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+            byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
             Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
 
             return (Device) Json.decode(
@@ -30,9 +28,9 @@ public class Jwt {
         }
     }
 
-    public static String getDeviceToken(Device device) {
+    public static String getDeviceToken(Device device, String secretKey) {
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        byte[] secretKeyBytes = DatatypeConverter.parseBase64Binary(secretKey);
         Key signingKey = new SecretKeySpec(secretKeyBytes, signatureAlgorithm.getJcaName());
 
         return Jwts.builder().setSubject(Json.encode(device))
