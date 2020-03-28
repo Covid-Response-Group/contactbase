@@ -20,6 +20,20 @@ public class SpatialTemporalStamp implements Serializable {
         this.hourStamp = hourStamp;
     }
 
+    public static SpatialTemporalStamp fromString(String stampString) {
+        String[] components = stampString.split(":");
+
+        SpatialTemporalStamp spatialTemporalStamp = new SpatialTemporalStamp();
+
+        if (components.length == 3) {
+            spatialTemporalStamp.setGeohash(components[0]);
+            spatialTemporalStamp.setDistance(Long.parseLong(components[1]));
+            spatialTemporalStamp.setHourStamp(components[2]);
+        }
+
+        return spatialTemporalStamp;
+    }
+
     public Long getDistance() {
         return distance;
     }
@@ -46,19 +60,5 @@ public class SpatialTemporalStamp implements Serializable {
 
     public String toString() {
         return geohash + ":" + distance + ":" + hourStamp;
-    }
-
-    public static SpatialTemporalStamp fromString(String stampString) {
-        String[] components = stampString.split(":");
-
-        SpatialTemporalStamp spatialTemporalStamp = new SpatialTemporalStamp();
-
-        if (components.length == 3) {
-            spatialTemporalStamp.setGeohash(components[0]);
-            spatialTemporalStamp.setDistance(Long.parseLong(components[1]));
-            spatialTemporalStamp.setHourStamp(components[2]);
-        }
-
-        return spatialTemporalStamp;
     }
 }
