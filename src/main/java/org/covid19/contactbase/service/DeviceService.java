@@ -36,7 +36,23 @@ public class DeviceService {
         throw new RuntimeException("Error while registering device");
     }
 
+    public void markInfected(String deviceId) {
+        stringRedisTemplate.opsForValue().set(getInfectedKey(deviceId), "1");
+    }
+
+    public void unMarkInfected(String deviceId) {
+        stringRedisTemplate.delete(getInfectedKey(deviceId));
+    }
+
+    public Boolean isInfected(String deviceId) {
+        return stringRedisTemplate.hasKey(getInfectedKey(deviceId));
+    }
+
     private String getDeviceKey(Device device) {
         return "DEVICE_" + device.getDeviceId();
+    }
+
+    private String getInfectedKey(String deviceId) {
+        return "INFECTED_" + deviceId;
     }
 }
