@@ -1,45 +1,23 @@
 package org.covid19.contactbase.model;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class SpatialTemporalStamp implements Serializable {
 
-    private Long distance;
-
+    @NotBlank
     private String geohash;
 
-    private String hourStamp;
+    @NotBlank
+    private String dateStamp;
 
     public SpatialTemporalStamp() {
 
     }
 
-    public SpatialTemporalStamp(Long distance, String geohash, String hourStamp) {
-        this.distance = distance;
+    public SpatialTemporalStamp(@NotBlank String geohash, @NotBlank String dateStamp) {
         this.geohash = geohash;
-        this.hourStamp = hourStamp;
-    }
-
-    public static SpatialTemporalStamp fromString(String stampString) {
-        String[] components = stampString.split(":");
-
-        SpatialTemporalStamp spatialTemporalStamp = new SpatialTemporalStamp();
-
-        if (components.length == 3) {
-            spatialTemporalStamp.setGeohash(components[0]);
-            spatialTemporalStamp.setDistance(Long.parseLong(components[1]));
-            spatialTemporalStamp.setHourStamp(components[2]);
-        }
-
-        return spatialTemporalStamp;
-    }
-
-    public Long getDistance() {
-        return distance;
-    }
-
-    public void setDistance(Long distance) {
-        this.distance = distance;
+        this.dateStamp = dateStamp;
     }
 
     public String getGeohash() {
@@ -50,15 +28,16 @@ public class SpatialTemporalStamp implements Serializable {
         this.geohash = geohash;
     }
 
-    public String getHourStamp() {
-        return hourStamp;
+    public String getDateStamp() {
+        return dateStamp;
     }
 
-    public void setHourStamp(String hourStamp) {
-        this.hourStamp = hourStamp;
+    public void setDateStamp(String dateStamp) {
+        this.dateStamp = dateStamp;
     }
 
+    @Override
     public String toString() {
-        return geohash + ":" + distance + ":" + hourStamp;
+        return this.geohash + "/" + this.dateStamp;
     }
 }
