@@ -1,6 +1,9 @@
 package org.covid19.contactbase.auth;
 
+import org.covid19.contactbase.controller.RequiresAdminAuthentication;
+import org.covid19.contactbase.controller.RequiresAuthorityAuthentication;
 import org.covid19.contactbase.controller.RequiresDeviceAuthentication;
+import org.covid19.contactbase.model.Authority;
 import org.covid19.contactbase.model.Device;
 import org.covid19.contactbase.util.Jwt;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +20,9 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Value("${jwt.secret.key}")
     private String jwtSecretKey;
 
+    @Value("${admin.key}")
+    private String adminKey;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
@@ -27,7 +33,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             if (handlerBean instanceof RequiresDeviceAuthentication) {
                 String token = extractToken(request);
 
-
                 Device device = Jwt.getDevice(token, jwtSecretKey);
 
                 if (device == null) {
@@ -35,6 +40,22 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 }
 
                 ThreadLocalWrapper.setDevice(device);
+            } else if (handlerBean instanceof RequiresAdminAuthentication) {
+                String token = extractToken(request);
+
+                if (!adminKey.equals(token)) {
+                    throw new RuntimeException("Invalid access token");
+                }
+            } else if (handlerBean instanceof RequiresAuthorityAuthentication) {
+                String token = extractToken(request);
+
+                Authority authority = Jwt.getAuthority(token, jwtSecretKey);
+
+                if (authority == null) {
+                    throw new RuntimeException("Invalid access token");
+                }
+
+                ThreadLocalWrapper.setAuthority(authority);
             }
         }
 
