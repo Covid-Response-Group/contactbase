@@ -49,10 +49,10 @@ public class DeviceService {
     }
 
     private String getDeviceKey(Device device) {
-        return "DEVICE_" + device.getDeviceId();
+        return "DEVICE/" + device.getDeviceId();
     }
 
     private String getInfectedKey(String deviceId) {
-        return "INFECTED_" + deviceId;
+        return "INFECTED/" + deviceId;
     }
 }
