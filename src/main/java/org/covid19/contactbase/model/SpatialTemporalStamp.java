@@ -20,6 +20,16 @@ public class SpatialTemporalStamp implements Serializable {
         this.dateStamp = dateStamp;
     }
 
+    public static SpatialTemporalStamp fromString(String spatialTemporalStampString) {
+        String[] components = spatialTemporalStampString.split("/");
+
+        if (components.length != 2) {
+            return null;
+        }
+
+        return new SpatialTemporalStamp(components[0], components[1]);
+    }
+
     public String getGeohash() {
         return geohash;
     }

@@ -1,9 +1,13 @@
 package org.covid19.contactbase.controller;
 
 import org.covid19.contactbase.model.Contact;
+import org.covid19.contactbase.request.QueryRequest;
 import org.covid19.contactbase.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -24,9 +28,11 @@ public class ContactController extends AuthenticatedDeviceController {
         contactService.store(getDeviceId(), contacts);
     }
 
-    @RequestMapping(value = "/contacts", method = RequestMethod.GET)
-    public List<Contact> list(@RequestParam String dateStamp,
-                              @RequestParam String geohash) {
-        return contactService.list(getDeviceId(), geohash, dateStamp);
+    @RequestMapping(value = "/contacts/query", method = RequestMethod.POST)
+    public List<Contact> list(@Valid @RequestBody QueryRequest queryRequest) {
+        return contactService.query(getDeviceId(),
+                queryRequest.getGeoHashes(),
+                queryRequest.getFromDateStamp(),
+                queryRequest.getToDateStamp());
     }
 }
