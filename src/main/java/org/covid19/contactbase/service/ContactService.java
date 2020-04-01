@@ -128,6 +128,8 @@ public class ContactService {
             geoHashMap.put(geohash, true);
         }
 
+        Boolean geoHashMapIsEmpty = geoHashes.size() == 0;
+
         int currentStart = 0;
         int pageSize = 50;
 
@@ -156,7 +158,7 @@ public class ContactService {
 
                 if (dateStampInt >= fromDateStampInt
                         && dateStampInt <= Integer.parseInt(toDateStamp)
-                        && geoHashMap.containsKey(geohash)) {
+                        && (geoHashMapIsEmpty || geoHashMap.containsKey(geohash))) {
                     filteredSpatialTemporalStamps.add(spatialTemporalStamp);
                 }
 
