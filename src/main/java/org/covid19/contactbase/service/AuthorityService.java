@@ -42,7 +42,11 @@ public class AuthorityService {
     public String authenticate(Authority authority) {
         Object hashedPassword = stringRedisTemplate.opsForHash().get(getAuthorityKey(authority.getEmail()), FIELD_PASSWORD);
 
-        if (!Password.verify(authority.getPassword(), hashedPassword.toString())) {
+        try {
+            if (!Password.verify(authority.getPassword(), hashedPassword.toString())) {
+                throw new RuntimeException("Invalid login credentials");
+            }
+        } catch (Exception e) {
             throw new RuntimeException("Invalid login credentials");
         }
 
