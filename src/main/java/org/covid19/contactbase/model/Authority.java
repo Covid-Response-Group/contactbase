@@ -1,7 +1,5 @@
 package org.covid19.contactbase.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
@@ -11,7 +9,6 @@ public class Authority implements Serializable {
     private String email;
 
     @NotBlank
-    @JsonIgnore
     private String password;
 
     public Authority() {

@@ -3,14 +3,12 @@ ContactBase
 
 ### Open API for Device Based Contact Tracing
 
-
 - Device Registration
 
 ```
 curl localhost:3000/api/v1/devices -XPOST -d '{"deviceId": "aa:bb:cc:dd", "user": {"mobile": "9999999999"}}' -H "Content-Type: application/json"
 {"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJkZXZpY2VJZFwiOlwiYWE6YmI6Y2M6ZGRcIixcInVzZXJcIjp7XCJtb2JpbGVcIjpcIjk5OTk5OTk5OTlcIn0sXCJyZWdpc3RyYXRpb25UaW1lU3RhbXBcIjpudWxsfSJ9.h1kz-TnAQU6LbuXr5V72Fp_CwMMPu6eIn9jeDBCyDaA"}
 ```
-
 
 - Push Device Contacts
 
@@ -41,6 +39,19 @@ curl localhost:3000/api/v1/device/infected -XDELETE -H "Content-Type: applicatio
 ```
 curl localhost:3000/api/v1/device/infected -XGET -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJkZXZpY2VJZFwiOlwiYWE6YmI6Y2M6ZGRcIixcInVzZXJcIjp7XCJtb2JpbGVcIjpcIjk5OTk5OTk5OTlcIn0sXCJyZWdpc3RyYXRpb25UaW1lU3RhbXBcIjpudWxsfSJ9.h1kz-TnAQU6LbuXr5V72Fp_CwMMPu6eIn9jeDBCyDaA"
 true
+```
+
+- Add an authority account
+
+```
+curl localhost:3000/api/v1/authorities -XPOST -d '{"email": "mail@somsubhra.com", "password": "qwedsa123"}' -H "Content-Type: application/json" -H "Authorization: Bearer adminkey"
+```
+
+- Authenticate an authority
+
+```
+curl localhost:3000/api/v1/authorities/authenticate -XPOST -d '{"email": "mail@somsubhra.com", "password": "qwedsa123"}' -H "Content-Type: application/json"
+{"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJlbWFpbFwiOlwibWFpbEBzb21zdWJocmEuY29tXCIsXCJwYXNzd29yZFwiOm51bGx9In0.GKHEIX2BKshl1kG8GqILfeO37OVX7wh1mhL6iKHpFXE"}
 ```
 
 ### Generate Client
