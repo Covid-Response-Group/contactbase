@@ -54,6 +54,12 @@ curl localhost:3000/api/v1/authorities/authenticate -XPOST -d '{"email": "mail@s
 {"token":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJlbWFpbFwiOlwibWFpbEBzb21zdWJocmEuY29tXCIsXCJwYXNzd29yZFwiOm51bGx9In0.GKHEIX2BKshl1kG8GqILfeO37OVX7wh1mhL6iKHpFXE"}
 ```
 
+- Change Authority Password
+
+```
+curl localhost:3000/api/v1/authority/password -XPUT -d '{"password": "qwedsa123"}' -H "Content-Type: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ7XCJlbWFpbFwiOlwibWFpbEBzb21zdWJocmEuY29tXCIsXCJwYXNzd29yZFwiOm51bGx9In0.GKHEIX2BKshl1kG8GqILfeO37OVX7wh1mhL6iKHpFXE"
+```
+
 ### Generate Client
 
 ```

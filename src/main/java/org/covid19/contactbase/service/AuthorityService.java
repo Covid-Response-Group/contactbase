@@ -54,6 +54,10 @@ public class AuthorityService {
         return Jwt.getAuthorityToken(authority, jwtSecretKey);
     }
 
+    public void changePassword(String email, String password) {
+        stringRedisTemplate.opsForHash().put(getAuthorityKey(email), FIELD_PASSWORD, Password.encrypt(password));
+    }
+
     private String getAuthorityKey(String email) {
         return "AUTHORITY/" + email;
     }
